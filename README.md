@@ -1,6 +1,6 @@
 # Company Profile Website
 
-Website ini adalah **company profile** yang menampilkan informasi tentang perusahaan secara profesional dan modern. Dibangun menggunakan **native HTML, CSS, dan JavaScript**, dengan **Tailwind CSS** sebagai framework utility-first untuk styling cepat dan responsif.
+Website ini adalah **company profile** yang menampilkan informasi tentang perusahaan secara profesional dan modern. Dibangun menggunakan **native HTML, CSS, dan JavaScript**, dengan **bootstrap** sebagai framework utility-first untuk styling cepat dan responsif.
 
 ## Fitur Utama
 - **Responsive Design**: Tampilan menyesuaikan berbagai ukuran layar (desktop, tablet, mobile).  

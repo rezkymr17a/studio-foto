@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lensa Vision - Professional Photography Studio</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #d4af37; /* Gold accent */
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text-light: #f8f9fa;
+            /* Mengubah warna text-muted dari #b0b0b0 menjadi #e0e0e0 agar lebih terang dan jelas */
+            --text-muted: #e0e0e0; 
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Override Bootstrap text-muted agar mengikuti variable kita yang lebih terang */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Navbar Customization */
+        .navbar {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 20px 0;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light) !important;
+        }
+
+        .navbar-brand span {
+            color: var(--primary);
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            margin-left: 20px;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/gambar.jpeg');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .btn-custom {
+            padding: 12px 35px;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            border-radius: 50px;
+        }
+
+        .btn-custom:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            margin: 20px auto 0;
+        }
+
+        /* About Section */
+        .about-img-container {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .about-img-container img {
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .about-img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Services Cards */
+        .service-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.05);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        /* Portfolio Gallery */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            height: 300px; /* Fixed height for consistency */
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay h4 {
+            transform: translateY(20px);
+            transition: transform 0.4s ease 0.1s;
+        }
+
+        .portfolio-item:hover .portfolio-overlay h4 {
+            transform: translateY(0);
+        }
+
+        /* Pricing/Packages */
+        .price-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .price-header {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .price-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-body ul li {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+        
+        .price-body ul li i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--darker-bg);
+        }
+
+        .form-control {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            background: var(--card-bg);
+            color: var(--text-light);
+            border-color: var(--primary);
+            box-shadow: none;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            border-radius: 50%;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* Success Message Toast */
+        .toast-custom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 8px;
+            transform: translateY(150%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 9999;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .toast-custom.show {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .navbar-collapse {
+                background: var(--dark-bg);
+                padding: 20px;
+                border-radius: 10px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Lensa<span>Vision</span></a>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">Paket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 hero-content">
+                    <h1 data-aos="fade-up" data-aos-duration="1000">Tangkap Momen,<br>Abadikan Cerita</h1>
+                    <p data-aos="fade-up" data-aos-delay="200">Studio fotografi profesional untuk setiap momen berharga dalam hidup Anda.</p>
+                    <a href="#contact" class="btn btn-custom" data-aos="zoom-in" data-aos-delay="400">Booking Sekarang</a>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll Down Indicator -->
+        <div style="position: absolute; bottom: 30px; animation: bounce 2s infinite;">
+            <i class="fas fa-chevron-down" style="color: var(--text-light); font-size: 20px;"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <div class="about-img-container">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" 
+                        alt="Photographer at work" 
+                        class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6 ps-lg-5" data-aos="fade-left">
+                    <div class="section-title text-start">
+                        <h2>Di Balik <span>Lensa</span></h2>
+                    </div>
+                    <p class="text-muted">Lensa Vision berdiri sejak 2018 dengan satu visi sederhana: membuat fotografi profesional dapat diakses oleh semua orang tanpa mengorbankan kualitas artistik.</p>
+                    <p class="text-muted mb-4">Kami bukan sekadar menekan tombol shutter. Kami mengarahkan, kami menata cahaya, dan kami menangkap emosi yang jujur. Tim kami terdiri dari fotografer berpengalaman yang siap mewujudkan visi visual Anda.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-4 text-center">
+                            <h3 class="fw-bold text-white">500+</h3>
+                            <small class="text-muted">Happy Clients</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h3 class="fw-bold text-white">50+</h3>
+                            <small class="text-muted">Awards</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h3 class="fw-bold text-white">5th</h3>
+                            <small class="text-muted">Experience</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" style="background-color: var(--darker-bg);">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Layanan <span>Kami</span></h2>
+                <p class="text-muted">Spesialisasi kami untuk kebutuhan visual Anda</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-camera-retro"></i></div>
+                        <h4>Wedding & Prewedding</h4>
+                        <p class="text-muted mt-3">Mengabadikan kisah cinta Anda dalam frame yang romantis dan tak lekang oleh waktu.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-user-tie"></i></div>
+                        <h4>Personal Portrait</h4>
+                        <p class="text-muted mt-3">Foto profil profesional untuk CV, LinkedIn, atau sekadar personal branding yang elegan.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-box-open"></i></div>
+                        <h4>Product Photography</h4>
+                        <p class="text-muted mt-3">Tingkatkan penjualan bisnis Anda dengan foto produk yang detail, tajam, dan menjual.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Galeri <span>Karya</span></h2>
+                <p class="text-muted">Intip portofolio terbaru kami</p>
+            </div>
+
+            <!-- Filter Buttons (Visual Only) -->
+            <div class="text-center mb-5" data-aos="fade-up">
+                <button class="btn btn-outline-light btn-sm mx-1 active">All</button>
+                <button class="btn btn-outline-light btn-sm mx-1">Wedding</button>
+                <button class="btn btn-outline-light btn-sm mx-1">Portrait</button>
+                <button class="btn btn-outline-light btn-sm mx-1">Product</button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Gallery Item 1 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80" 
+     alt="Wedding" 
+     class="img-fluid">
+
+                        <div class="portfolio-overlay">
+                            <h4>The Wedding</h4>
+                            <p>Cinematic Style</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Portrait">
+                        <div class="portfolio-overlay">
+                            <h4>Portrait Model</h4>
+                            <p>Studio Lighting</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop" alt="Product">
+                        <div class="portfolio-overlay">
+                            <h4>Headphones</h4>
+                            <p>Product Commercial</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Wedding Detail">
+                        <div class="portfolio-overlay">
+                            <h4>Intimate Moments</h4>
+                            <p>Candid Shot</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=800&auto=format&fit=crop" alt="Fashion">
+                        <div class="portfolio-overlay">
+                            <h4>Neon Vibes</h4>
+                            <p>Creative Editorial</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 6 -->
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop" alt="Dark Mood">
+                        <div class="portfolio-overlay">
+                            <h4>Dark Mood</h4>
+                            <p>Artistic Series</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" style="background-color: var(--darker-bg);">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Paket <span>Spesial</span></h2>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="100">
+                    <div class="price-card h-100">
+                        <div class="price-header">
+                            <h5>Basic Studio</h5>
+                            <div class="price-value">Rp 500k</div>
+                        </div>
+                        <div class="price-body p-4">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check"></i> 1 Jam Sesi Studio</li>
+                                <li><i class="fas fa-check"></i> 1 Pilihan Background</li>
+                                <li><i class="fas fa-check"></i> 5 Foto Edit High-Res</li>
+                                <li><i class="fas fa-check"></i> Semua File Mentah</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <a href="#contact" class="btn btn-outline-light w-100 rounded-pill">Pilih Paket</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="200">
+                    <div class="price-card h-100 border-primary">
+                        <div class="price-header" style="background: rgba(212, 175, 55, 0.2);">
+                            <div class="badge bg-warning text-dark mb-2">Popular</div>
+                            <h5>Professional</h5>
+                            <div class="price-value">Rp 1.5jt</div>
+                        </div>
+                        <div class="price-body p-4">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check"></i> 2 Jam Sesi Studio</li>
+                                <li><i class="fas fa-check"></i> 3 Pilihan Background</li>
+                                <li><i class="fas fa-check"></i> Makeup Artist Include</li>
+                                <li><i class="fas fa-check"></i> 15 Foto Edit High-Res</li>
+                                <li><i class="fas fa-check"></i> Cetak Kanvas 40x60</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <a href="#contact" class="btn btn-custom w-100">Pilih Paket</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="300">
+                    <div class="price-card h-100">
+                        <div class="price-header">
+                            <h5>Prewedding Outdoor</h5>
+                            <div class="price-value">Rp 3.5jt</div>
+                        </div>
+                        <div class="price-body p-4">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check"></i> Full Day Sesi (8 Jam)</li>
+                                <li><i class="fas fa-check"></i> 2 Lokasi Outdoor</li>
+                                <li><i class="fas fa-check"></i> Makeup & Hairdo Standby</li>
+                                <li><i class="fas fa-check"></i> 40 Foto Edit High-Res</li>
+                                <li><i class="fas fa-check"></i> Video Cinematic 1 Menit</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <a href="#contact" class="btn btn-outline-light w-100 rounded-pill">Pilih Paket</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <div class="section-title text-start">
+                        <h2>Hubungi <span>Kami</span></h2>
+                        <p class="text-muted">Siap untuk menciptakan keajaiban visual bersama?</p>
+                    </div>
+                    
+                    <div class="contact-info mt-5">
+                        <div class="contact-info-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h5 class="mb-1">Lokasi Studio</h5>
+                                <p class="text-muted mb-0">Jl. Fotografi No. 12, Jakarta Selatan</p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h5 class="mb-1">Email</h5>
+                                <p class="text-muted mb-0">hello@lensavision.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div>
+                                <h5 class="mb-1">WhatsApp</h5>
+                                <p class="text-muted mb-0">+62 812 3456 7890</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card bg-dark p-4 border-0 shadow-lg">
+                        <h4 class="mb-4">Kirim Pesan</h4>
+                        <form id="bookingForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" placeholder="Nama Anda" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control" placeholder="Email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-control" style="background: var(--card-bg); color: #fff; border: 1px solid rgba(255,255,255,0.1);">
+                                    <option>Pilih Jenis Layanan</option>
+                                    <option>Wedding/Prewedding</option>
+                                    <option>Portrait Studio</option>
+                                    <option>Produk/Komersial</option>
+                                    <option>Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="5" placeholder="Ceritakan detail kebutuhan Anda..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-custom w-100">Kirim Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="fw-bold mb-4">Lensa<span>Vision</span></h3>
+                    <div class="social-links mb-4">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <hr style="border-color: rgba(255,255,255,0.1);">
+                    <p class="text-muted small">&copy; 2023 Lensa Vision Studio. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Toast Notification -->
+    <div id="successToast" class="toast-custom">
+        <i class="fas fa-check-circle me-2"></i> Pesan terkirim! Kami akan menghubungi Anda segera.
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            once: true, // Animasi hanya terjadi sekali saat scroll
+            offset: 100, // Trigger offset
+            duration: 800, // Durasi animasi
+            easing: 'ease-out-cubic',
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth Scrolling for Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fake Form Submission Handling
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            // Loading state
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Reset form
+                this.reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Show toast
+                const toast = document.getElementById('successToast');
+                toast.classList.add('show');
+                
+                // Hide toast after 3s
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }, 1500);
+        });
+
+        // Add bounce animation keyframes dynamically
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+                40% {transform: translateY(-10px);}
+                60% {transform: translateY(-5px);}
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
